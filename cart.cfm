@@ -1,12 +1,19 @@
 <cfset bookService = createObject("component", "services.bookService")>
+
+<cfif structKeyExists(form, "placeOrder")>
+    <cfset orderService = createObject("component", "services.orderService")>
+
+    <!--- Validate user credentials --->
+    <cfset orderService.placeOrder(session.loggedIn.id)>
+</cfif>
+
 	<!--- Include Header --->
 <cfinclude template="includes/header.cfm">
-<h2>Shopping Cart</h2>
+<h2>Shopping Cart</h2></br></br>
 
 <cfif ArrayIsEmpty(session.cart)>
     <p>Your cart is empty.</p>
 <cfelse>
-    <cfdump var="#session.cart#" >
     <table>
         <thead>
             <tr>
@@ -50,7 +57,10 @@
                 <td><cfoutput>#total#</cfoutput></td>
             </tr>
         </tbody>
-    </table>
+    </table></br>
+    <form method="post">
+        <input type="submit" name="placeOrder" value="Place Order" style="float: right;">
+    </form>
 </cfif>
 	<!--- Include Footer --->
 <cfinclude template="includes/footer.cfm">

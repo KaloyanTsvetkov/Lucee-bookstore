@@ -55,6 +55,7 @@
         <cfreturn false>
       <cfelse>
         <cfset session.loggedIn = user>
+        <cfset session.cart = []>
         <cfreturn true>
       </cfif>
     </cffunction>

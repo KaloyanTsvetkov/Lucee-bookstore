@@ -26,22 +26,22 @@
     <input type="hidden" name="submit" value="1">
     <div>
         <label for="title">Title:   </label>
-        <input type="text" name="title" id="title" value="#FORM.title#" required>
+        <input type="text" name="title" id="title" placeholder="Title" required>
     </div>
     <br/>
     <div>
         <label for="author">Author: </label>
-        <input type="text" name="author" id="author" value="#FORM.author#" required>
+        <input type="text" name="author" id="author" placeholder="Author" required>
     </div>
     <br/>
     <div>
         <label for="price">Price:</label>
-        <input type="number" name="price" id="price" value="#FORM.price#" required step="0.01" min="0">
+        <input type="number" name="price" id="price" placeholder="Price" required step="0.01" min="0">
     </div>
     <br/>
     <div>
-        <label for="description">Description:</label>
-        <textarea name="description" id="description" required>#FORM.description#</textarea>
+        <label for="description">Description:</label></br>
+        <textarea name="description" id="description" required>Description...</textarea>
     </div>
     <br/>
     <button type="submit">Add Book</button>

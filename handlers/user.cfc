@@ -76,7 +76,7 @@ component {
     function getUserByUsernameAndPassword(username, password) {
         // Query the database to retrieve the user with the given username and password
         userQuery = new Query();
-        userQuery.setSQL("SELECT id, username, password FROM users WHERE username = :username AND password = :password");
+        userQuery.setSQL("SELECT id, username, password, email FROM users WHERE username = :username AND password = :password");
         userQuery.addParam(name="username", value = username, cfsqltype = "CF_SQL_VARCHAR");
         userQuery.addParam(name="password", value = password, cfsqltype = "CF_SQL_VARCHAR");
         var user = userQuery.execute().getResult();
