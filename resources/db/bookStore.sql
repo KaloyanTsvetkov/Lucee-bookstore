@@ -1,0 +1,38 @@
+CREATE DATABASE IF NOT EXISTS bookstore;
+
+CREATE USER 'bookStoreUser'@'localhost' IDENTIFIED WITH mysql_native_password BY 'Kaloyan123';
+GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, INDEX, DROP, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES ON 
+bookstore.* TO 'bookStoreUser'@'localhost';
+
+GRANT ALL PRIVILEGES ON safety.* TO 'bookStoreUser'@'localhost' WITH GRANT OPTION;
+
+CREATE DATABASE IF NOT EXISTS bookstore;
+
+USE bookstore;
+
+CREATE TABLE IF NOT EXISTS books (
+   id INT NOT NULL AUTO_INCREMENT,
+   title VARCHAR(255) NOT NULL,
+   author VARCHAR(255) NOT NULL,
+   price DECIMAL(10,2) NOT NULL,
+   PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS users (
+   id INT NOT NULL AUTO_INCREMENT,
+   username VARCHAR(255) NOT NULL,
+   password VARCHAR(255) NOT NULL,
+   email VARCHAR(255) NOT NULL,
+   PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS orders (
+   id INT NOT NULL AUTO_INCREMENT,
+   user_id INT NOT NULL,
+   book_id INT NOT NULL,
+   quantity INT NOT NULL,
+   order_date DATETIME NOT NULL,
+   PRIMARY KEY (id),
+   FOREIGN KEY (user_id) REFERENCES users(id),
+   FOREIGN KEY (book_id) REFERENCES books(id)
+);
