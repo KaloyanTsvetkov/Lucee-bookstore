@@ -1,23 +1,5 @@
 <cfcomponent>
     <cfset userbj = createObject("component", "handlers.user")>
-
-    <cffunction name="login" access="public" returntype="boolean">
-      <cfargument name="username" type="string" required="true">
-      <cfargument name="password" type="string" required="true">
-  
-      <!--- Query the database to retrieve the user with the given username and password --->
-      <cfset var user = getUserByUsernameAndPassword(username, password)>
-  
-      <!--- If the user is found, set session variables to indicate that the user is logged in
-            and return true. Otherwise, return false. --->
-      <cfif structKeyExists(user, "id")>
-        <cfset session.loggedIn = true>
-        <cfset session.userId = user.id>
-        <cfreturn true>
-      <cfelse>
-        <cfreturn false>
-      </cfif>
-    </cffunction>
   
     <cffunction name="logout" access="public" returntype="void">
       <!--- Clear session variables to indicate that the user is no longer logged in --->
@@ -46,6 +28,8 @@
     <cffunction name="validateUser" access="public" returntype="boolean">
       <cfargument name="username" type="string" required="true">
       <cfargument name="password" type="string" required="true">
+
+      <cfset password = hash(password, "SHA-512")>
   
       <!--- Query the database to retrieve the user with the given username and password --->
       <cfset user = userbj.getUserByUsernameAndPassword(username, password)>
@@ -59,6 +43,25 @@
         <cfreturn true>
       </cfif>
     </cffunction>
+
+    <cffunction name="registerUser" access="public" returntype="void" output="false">
+      <cfargument name="user" type="struct" required="true">
+      <cfset userbj.userRegistration(user) />
+  </cffunction>
+
+  <cffunction name="checkUsernameExists" access="public" returnType="boolean">
+    <cfargument name="username" type="string" required="true">
+    
+    <cfset var exists = false />
+    <cfset var user = userbj.checkUserExists(username) />
+    
+    <cfif user.recordcount>
+        <cfset exists = true />
+    </cfif>
+    
+    <cfreturn exists>
+</cffunction>
+
   
   </cfcomponent>
   

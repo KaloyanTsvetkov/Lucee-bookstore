@@ -4,7 +4,7 @@
 <cfif not structKeyExists(session, "loggedIn")>
 	<!--- User is not logged in, redirect to login page --->
 	<cflocation url="login.cfm">
-  </cfif>
+</cfif>
 
 <!DOCTYPE html>
 <html>

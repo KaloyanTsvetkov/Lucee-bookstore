@@ -1,5 +1,10 @@
 <cfset bookService = createObject("component", "services.bookService")>
-	<!--- Include Header --->
+<cfif not structKeyExists(session, "loggedIn")>
+	<!--- User is not logged in, redirect to login page --->
+	<cflocation url="login.cfm">
+</cfif>
+
+<!--- Include Header --->
 <cfinclude template="includes/header.cfm">
 <cfif StructKeyExists(URL, "id") and IsNumeric(URL.id)>
     <cfset book = bookService.getBook(URL.id)>

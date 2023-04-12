@@ -1,4 +1,9 @@
 <cfset bookService = createObject("component", "services.bookService")>
+<cfif not structKeyExists(session, "loggedIn")>
+	<!--- User is not logged in, redirect to login page --->
+	<cflocation url="login.cfm">
+</cfif>
+
 <!--- Include Header --->
 <cfinclude template="includes/header.cfm">
 <h2>Add a New Book</h2><br/><br/>

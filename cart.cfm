@@ -1,5 +1,10 @@
 <cfset bookService = createObject("component", "services.bookService")>
 
+<cfif not structKeyExists(session, "loggedIn")>
+	<!--- User is not logged in, redirect to login page --->
+	<cflocation url="login.cfm">
+</cfif>
+
 <cfif structKeyExists(form, "placeOrder")>
     <cfset orderService = createObject("component", "services.orderService")>
 

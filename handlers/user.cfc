@@ -4,7 +4,7 @@ component {
     property name="userService" inject="userService";
 
     /**
-     * Register a new user
+     * Register 
      * @httpMethod POST
      * @produces application/json
      * @consumes application/json
@@ -35,6 +35,18 @@ component {
             return serializeJSON(response);
         }
     }
+
+    function userRegistration(user) {
+        var qAddUser = new Query();
+        qAddUser.setSQL("INSERT INTO users (username, password, email)
+          VALUES (:username, :password, :email)");
+        passHashed = hash(arguments.user.password, "SHA-512");
+        qAddUser.addParam(name="username", value=arguments.user.username, cfsqltype="CF_SQL_VARCHAR");
+        qAddUser.addParam(name="password", value=passHashed, cfsqltype="CF_SQL_VARCHAR");
+        qAddUser.addParam(name="email", value=arguments.user.email, cfsqltype="CF_SQL_VARCHAR");
+
+        qAddUser.execute();
+      }
 
     /**
      * Authenticate a user
@@ -79,6 +91,15 @@ component {
         userQuery.setSQL("SELECT id, username, password, email FROM users WHERE username = :username AND password = :password");
         userQuery.addParam(name="username", value = username, cfsqltype = "CF_SQL_VARCHAR");
         userQuery.addParam(name="password", value = password, cfsqltype = "CF_SQL_VARCHAR");
+        var user = userQuery.execute().getResult();
+        return user;
+    }
+
+    function checkUserExists(username) {
+        // Query the database to retrieve the user with the given username and password
+        userQuery = new Query();
+        userQuery.setSQL("SELECT id FROM users WHERE username = :username");
+        userQuery.addParam(name="username", value = username, cfsqltype = "CF_SQL_VARCHAR");
         var user = userQuery.execute().getResult();
         return user;
     }
