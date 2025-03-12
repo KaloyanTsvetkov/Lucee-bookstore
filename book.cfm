@@ -4,8 +4,29 @@
 	<cflocation url="login.cfm">
 </cfif>
 
+<!--- Initialize message variable --->
+<cfset message = "">
+
+<!--- Process Form Submission --->
+<cfif structKeyExists(form, "action") AND form.action EQ "add_to_cart">
+    <cfif StructKeyExists(Form, "book_id") AND IsNumeric(Form.book_id) AND StructKeyExists(Form, "quantity") AND IsNumeric(Form.quantity)>
+        <cfset book = bookService.getBook(Form.book_id)>
+        <cfif NOT StructIsEmpty(book)>
+            <cfset cartService.addToCart(book, Form.quantity)>
+            <cfset message = "<p style='color: green;'>Book added to cart successfully!</p>">
+        <cfelse>
+            <cfset message = "<p style='color: red;'>Book not found.</p>">
+        </cfif>
+    <cfelse>
+        <cfset message = "<p style='color: red;'>Invalid book ID or quantity.</p>">
+    </cfif>
+</cfif>
+
 <!--- Include Header --->
 <cfinclude template="includes/header.cfm">
+<!--- Display Message in the Correct Place --->
+<cfoutput>#message#</cfoutput>
+
 <cfif StructKeyExists(URL, "id") and IsNumeric(URL.id)>
     <cfset book = bookService.getBook(URL.id)>
     <cfif StructIsEmpty(book)>
